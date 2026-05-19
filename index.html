@@ -182,18 +182,14 @@
 <body>
     <div id="app">
         <div class="header" id="title">答案之牌</div>
-
         <div id="canvasWrap">
             <canvas id="game"></canvas>
         </div>
-
         <div class="controls" id="controls"></div>
-
         <div class="modal" id="modal">
             <div class="panel" id="panel"></div>
         </div>
     </div>
-
     <script>
         /* =========================
            可自定义配置，顺序"♠"A-K>"♥"A-K>"♣"A-K>"♦"A-K>大王>小王
@@ -551,7 +547,6 @@
         /* =========================
            动画
         ========================= */
-
         let spinning = true;
         let spinAngle = 0;
         let shuffleAnim = 0;
@@ -661,7 +656,6 @@
         /* =========================
            抽牌逻辑
         ========================= */
-
         let results = [];
         let currentDrawCard = null;
 
@@ -715,56 +709,13 @@
         /* =========================
            弹窗
         ========================= */
-
         function cardHtml(card) {
-            return `
-                <div style = "display:flex;justify-content:center;padding:10px;">
-                    <canvas id="popupCard" width="360" height="560" style="width:85vw;max-width:360px;"></canvas>
-    </div>
-    <div style="text-align:center;font-size:18px;font-weight:700;margin-top:6px;">
-        ${card.rank} ${card.suit} - ${card.answer}
-    </div>
-    <button class="close-btn" onclick="closeModal()">关闭</button>
-            `;
+            return `<div style="display:flex;justify-content:center;padding:10px;"><canvas id="popupCard" width="360" height="560" style="width:85vw;max-width:360px;"></canvas></div><div style="text-align:center;font-size:18px;font-weight:700;margin-top:6px;">${card.rank} ${card.suit} - ${card.answer}</div><button class="close-btn" onclick="closeModal()">关闭</button>`;
         }
 
         function showCardPopup(card) {
-            showModal(`
-                <div style = "
-            display: flex;
-            justify - content: center;
-            align - items: center;
-            padding: 12px;
-            ">
-
-                <canvas
-            id = "popupCard"
-            width = "420"
-            height = "640"></canvas>
-
-        </div>
-
-        <div style="
-            text-align:center;
-            font-size:20px;
-            font-weight:700;
-            color:#944f68;
-            margin-top:6px;
-        ">
-            ${card.rank}
-            ${card.suit}
-            ·
-            ${card.answer}
-        </div>
-
-        <button
-            class="close-btn"
-            onclick="closeModal()"
-            style="background:linear-gradient(180deg,#ff9bb8,#e86f98);"
-    >
-            关闭
-        </button>
-            `);
+            showModal(`<div style="display:flex;justify-content:center;align-items:center;padding:12px;"><canvas id="popupCard" width="420" height="640"></canvas></div><div style="text-align:center;font-size:20px;font-weight:700;color:#944f68;margin-top:6px;">${card.rank}${card.suit}·${card.answer}</div>
+        <button class="close-btn" onclick="closeModal()" style="background:linear-gradient(180deg,#ff9bb8,#e86f98);">关闭</button>`);
 
             requestAnimationFrame(() => {
                 const popupCanvas =
@@ -798,27 +749,15 @@
         }
         function showResults() {
             if (!results.length) {
-                showModal(`
-                <div style = "text-align:center;padding:30px 0;color:rgb(140, 52, 88);">暂无结果</div>
-                    <button class="close-btn" onclick="closeModal()">关闭</button>
-            `);
+                showModal(`<div style="text-align:center;padding:30px 0;color:rgb(140, 52, 88);">暂无结果</div><button class="close-btn" onclick="closeModal()">关闭</button>`);
                 return;
             }
-
-            let html = `<div style = "font-size:20px;font-weight:700;margin-bottom:14px;color:rgb(140, 52, 88);">本轮结果</div>`;
+            let html = `<div style="font-size:20px;font-weight:700;margin-bottom:14px;color:rgb(140, 52, 88);">本轮结果</div>`;
             html += `<div class="result-list">`;
-
             results.forEach((r, i) => {
-                html += `
-                <div class="result-item" onclick = "showCardPopup(results[${i}])">
-                    第${i + 1} 张：${r.rank}${r.suit} - ${r.answer}
-        </div>
-                `;
+                html += `<div class="result-item" onclick="showCardPopup(results[${i}])">第${i + 1} 张：${r.rank}${r.suit} - ${r.answer}</div>`;
             });
-
-            html += `</div>
-                <button class="close-btn" onclick="closeModal()">关闭</button>`;
-
+            html += `</div><button class="close-btn" onclick="closeModal()">关闭</button>`;
             showModal(html);
         }
 
@@ -830,53 +769,26 @@
             shuffleAnim = 1;
 
             setTimeout(() => {
-
                 const s = randomSeed8();
-
                 const arr = createDeck();
                 shuffleBySeed(arr, s.split("").reduce((a, b) => a + b.charCodeAt(0), 0));
-
                 const token = base64Encode(name + ";;" + s);
-
                 const url = location.origin + location.pathname + "?q=" + token;
-
                 spinning = true;
-
-                showModal(`
-                    <div style = "font-size:20px;font-weight:700;">洗牌分享链接</div>
-            <div class="link-box">${url}</div>
-            <button onclick="navigator.clipboard.writeText('${url}')" style="margin-top:12px;width:100%;">
-                复制链接
-            </button>
-            <button class="close-btn" onclick="closeModal()">关闭</button>
-            `);
-
+                showModal(`<div style="font-size:20px;font-weight:700;">洗牌分享链接</div><div class="link-box">${url}</div><button onclick="navigator.clipboard.writeText('${url}')" style="margin-top:12px;width:100%;">复制链接</button><button class="close-btn" onclick="closeModal()">关闭</button>`);
             }, 1000);
         }
 
         /* =========================
            按钮
         ========================= */
-
         const controls = document.getElementById("controls");
-
         if (mode === "normal") {
-            controls.innerHTML = `
-                <button onclick = "drawOne()">抽一张</button>
-        <button onclick="shareShuffle()">洗牌分享</button>
-        <button class="secondary" onclick="showResults()">本轮结果</button>
-            `;
+            controls.innerHTML = `<button onclick="drawOne()">抽一张</button><button onclick="shareShuffle()">洗牌分享</button><button class="secondary" onclick="showResults()">本轮结果</button>`;
         } else {
-            controls.innerHTML = `
-                <button onclick = "drawOne()">抽一张</button>
-                    <button class="secondary" onclick="location.href=location.pathname">
-                        主界面
-                    </button>
-    `;
+            controls.innerHTML = `<button onclick="drawOne()">抽一张</button><button class="secondary" onclick="showResults()">本轮结果</button><button class="secondary" onclick="location.href=location.pathname">主界面</button>`;
         }
-
     </script>
-
 </body>
 
 </html>
