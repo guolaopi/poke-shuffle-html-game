@@ -317,14 +317,19 @@
 
         if (q) {
             try {
-                const decoded = base64Decode(q);
+                const urlDecode = decodeURIComponent(q);
+                const decoded = base64Decode(urlDecode);
+                console.log(decoded);
                 const arr = decoded.split(";;");
+                console.log(arr);
                 dealer = arr[0];
                 seed = arr[1];
                 mode = "dealer";
                 document.getElementById("title").innerText = "洗牌员：" + dealer;
                 shuffleBySeed(deck, seed.split("").reduce((a, b) => a + b.charCodeAt(0), 0));
-            } catch (e) { }
+            } catch (e) {
+                console.log(e);
+            }
         } else {
             seed = randomSeed8();
             shuffleBySeed(deck, Date.now());
@@ -773,7 +778,8 @@
                 const arr = createDeck();
                 shuffleBySeed(arr, s.split("").reduce((a, b) => a + b.charCodeAt(0), 0));
                 const token = base64Encode(name + ";;" + s);
-                const url = location.origin + location.pathname + "?q=" + token;
+                const urlEncode = encodeURIComponent(token);
+                const url = location.origin + location.pathname + "?q=" + urlEncode;
                 spinning = true;
                 showModal(`<div style="font-size:20px;font-weight:700;">洗牌分享链接</div><div class="link-box">${url}</div><button onclick="navigator.clipboard.writeText('${url}')" style="margin-top:12px;width:100%;">复制链接</button><button class="close-btn" onclick="closeModal()">关闭</button>`);
             }, 1000);
