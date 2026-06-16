@@ -319,16 +319,14 @@
             try {
                 const urlDecode = decodeURIComponent(q);
                 const decoded = base64Decode(urlDecode);
-                console.log(decoded);
                 const arr = decoded.split(";;");
-                console.log(arr);
                 dealer = arr[0];
                 seed = arr[1];
                 mode = "dealer";
                 document.getElementById("title").innerText = "洗牌员：" + dealer;
                 shuffleBySeed(deck, seed.split("").reduce((a, b) => a + b.charCodeAt(0), 0));
             } catch (e) {
-                console.log(e);
+                console.error(e);
             }
         } else {
             seed = randomSeed8();
