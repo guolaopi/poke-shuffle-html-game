@@ -227,14 +227,6 @@
             line: "#aaa"
         };
 
-        const SUITS = ["♠", "♥", "♣", "♦"];
-        const SUIT_COLORS = {
-            "♠": "#111",
-            "♣": "#111",
-            "♥": "#d11",
-            "♦": "#d11"
-        };
-        const RANKS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
 
         /* =========================
            工具
@@ -421,13 +413,8 @@
                 renderCtx.lineWidth = 10;
                 renderCtx.stroke();
 
-                // renderCtx.strokeStyle = "rgba(255,255,255,.75)";
-                // renderCtx.lineWidth = 6;
-                // renderCtx.beginPath();
-                // renderCtx.arc(0, 0, Math.min(w, h) / 5, 0, Math.PI * 2);
-                // renderCtx.stroke();
-                // 左上
-                renderCtx.font = `bold 70px Mono`;
+                // back card sticker
+                renderCtx.font = `70px Mono`;
                 renderCtx.textAlign = "left";
                 renderCtx.textBaseline = "top";
 
@@ -467,13 +454,13 @@
                 -h / 2 + 20 * fontScale
             );
 
-            renderCtx.font = `${18 * fontScale}px Mono`;
-
-            renderCtx.fillText(
-                card.suit,
-                -w / 2 + card.rank.length * 6,
-                -h / 2 + 50 * fontScale
-            );
+            // 左上花色
+            // renderCtx.font = `${18 * fontScale}px Mono`;
+            // renderCtx.fillText(
+            //     card.suit,
+            //     -w / 2 + card.rank.length * 6,
+            //     -h / 2 + 50 * fontScale
+            // );
 
             // 右下
             renderCtx.save();
@@ -494,16 +481,13 @@
 
             renderCtx.fillText(card.rank, -5 * fontScale, 0);
 
-            renderCtx.font = `${18 * fontScale}px Mono`;
-
-            let rightDownSuitXOffset =
-                3 - (card.rank.length) * 3;
-
-            renderCtx.fillText(
-                card.suit,
-                rightDownSuitXOffset,
-                28 * fontScale
-            );
+            // // 右下花色
+            // renderCtx.font = `${18 * fontScale}px Mono`;
+            // renderCtx.fillText(
+            //     card.suit,
+            //     3 - (card.rank.length) * 3,
+            //     28 * fontScale
+            // );
 
             renderCtx.restore();
 
