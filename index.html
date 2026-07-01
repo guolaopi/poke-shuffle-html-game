@@ -6,6 +6,31 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <title>答案之牌</title>
     <style>
+        html {
+            /* old theme */
+            /* --main-page-color: #f7dfe7;
+            --main-bg-color: linear-gradient(180deg, #fff5f7, #ffe7ef, #fce3ea);
+            --main-text-color: #8c3458;
+            --main-button-bg: linear-gradient(180deg, #ff7aa8, #e55688);
+            --secondary-button-bg: linear-gradient(180deg, #c98ba4, #b6708d);
+            --modal-overlay-bg: rgba(120, 70, 90, .28);
+            --modal-panel-bg: linear-gradient(180deg, #fff7fa, #ffeaf1);
+            --close-btn-bg: linear-gradient(180deg, #ff9bb8, #e86f98);
+            --list-item-bg: #f57f3f; */
+
+            /* macaroni theme */
+            /* new theme — mint & lavender macaron */
+            --main-page-color: #d4e8e0;
+            --main-bg-color: linear-gradient(180deg, #f5fbf8, #e6f2ec, #dce8e2);
+            --main-text-color: #4a6b5e;
+            --main-button-bg: linear-gradient(180deg, #8fc1b0, #72a892);
+            --secondary-button-bg: linear-gradient(180deg, #d4c9e8, #c0b3d9);
+            --modal-overlay-bg: rgba(100, 120, 130, 0.25);
+            --modal-panel-bg: linear-gradient(180deg, #fafffd, #f0f7f3);
+            --close-btn-bg: linear-gradient(180deg, #f0d68a, #e8c46a);
+            --list-item-bg: #f0d68a;
+        }
+
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent
@@ -18,7 +43,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #f7dfe7;
+            background: var(--main-page-color);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", Mono;
             color: #fff;
         }
@@ -34,7 +59,7 @@
             width: calc(100vw - 20px);
             height: calc(100vh - 20px);
             border-radius: 18px;
-            background: linear-gradient(180deg, #fff5f7, #ffe7ef, #fce3ea);
+            background: var(--main-bg-color);
             overflow: hidden;
             position: relative;
             border: 1px solid rgba(255, 255, 255, .08);
@@ -51,7 +76,7 @@
             letter-spacing: 2px;
             position: relative;
             z-index: 5;
-            color: #8c3458;
+            color: var(--main-text-color);
         }
 
         #canvasWrap {
@@ -87,7 +112,7 @@
             border-radius: 12px;
             padding: 12px 14px;
             min-width: 90px;
-            background: linear-gradient(180deg, #ff7aa8, #e55688);
+            background: var(--main-button-bg);
             color: #fff;
             font-size: 14px;
             font-weight: 700;
@@ -99,13 +124,13 @@
         }
 
         .secondary {
-            background: linear-gradient(180deg, #c98ba4, #b6708d);
+            background: var(--secondary-button-bg);
         }
 
         .modal {
             position: absolute;
             inset: 0;
-            background: rgba(120, 70, 90, .28);
+            background: var(--modal-overlay-bg);
             display: none;
             align-items: center;
             justify-content: center;
@@ -120,7 +145,7 @@
         .panel {
             width: 92%;
             max-height: 90%;
-            background: linear-gradient(180deg, #fff7fa, #ffeaf1);
+            background: var(--modal-panel-bg);
             border-radius: 20px;
             padding: 16px;
             overflow: auto;
@@ -136,7 +161,7 @@
         }
 
         .result-item {
-            background: #f57f3f;
+            background: var(--list-item-bg);
             padding: 12px;
             border-radius: 12px;
             font-size: 14px;
@@ -145,7 +170,7 @@
         .close-btn {
             margin-top: 16px;
             width: 100%;
-            background: linear-gradient(180deg, #ff9bb8, #e86f98);
+            background: var(--close-btn-bg);
         }
 
         .link-box {
@@ -190,22 +215,16 @@
             <div class="panel" id="panel"></div>
         </div>
     </div>
+    <script src="./my54.js"></script>
     <script>
-        /* =========================
-           可自定义配置，顺序"♠"A-K>"♥"A-K>"♣"A-K>"♦"A-K>大王>小王
-        ========================= */
-
-        const ANSWERS = [
-            "最好等待", "需要耐心", "终有回报", "不要去做", "别在意", "随他去吧", "将有转机", "别太勉强", "收下吧", "会实现的", "妥协吧", "别有成见", "在将来",
-            "别想太多", "休息一下", "是的", "熬过去吧", "浪费时间", "遵循内心", "幸运将至", "有点麻烦", "慢慢来", "很快脱单", "可以", "奋斗吧", "也许吧",
-            "圆满成功", "先苦后甜", "不对", "没事的", "机会难得", "值得试试", "耐心一点", "别放弃", "真诚一点", "遵从内心", "试一试", "不必纠结", "如你所愿",
-            "换个思路", "早点去做", "放宽心", "别再犹豫", "换个选择", "相信直觉", "取决于你", "向前看", "一切顺利", "尽力就好", "无关紧要", "别有成见", "十分确定",
-            "再抽一次", "再抽一次"
-        ];
-
         const BACK_PATTERN = {
-            bg: "#ec2b24",
-            line: "#cfefff"
+            bg: "#e8637a",
+            line: "#cfefff",
+            sticker: "🐈"
+        };
+        const FRONT_PATTERN = {
+            bg: "#fff",
+            line: "#aaa"
         };
 
         const SUITS = ["♠", "♥", "♣", "♦"];
@@ -286,21 +305,6 @@
                     idx++;
                 }
             }
-
-            deck.push({
-                suit: "★",
-                rank: "🤡",
-                answer: ANSWERS[52] || "Joker大",
-                id: 52
-            });
-
-            deck.push({
-                suit: "☆",
-                rank: "🤡",
-                answer: ANSWERS[53] || "Joker小",
-                id: 53
-            });
-
             return deck;
         }
 
@@ -413,30 +417,39 @@
                 renderCtx.shadowColor = "rgba(0,0,0,.18)";
                 renderCtx.shadowBlur = 10;
 
-                renderCtx.strokeStyle = "#fff";
+                renderCtx.strokeStyle = BACK_PATTERN.line;
                 renderCtx.lineWidth = 10;
                 renderCtx.stroke();
 
-                renderCtx.strokeStyle = "rgba(255,255,255,.75)";
-                renderCtx.lineWidth = 6;
-                renderCtx.beginPath();
-                renderCtx.arc(0, 0, Math.min(w, h) / 5, 0, Math.PI * 2);
-                renderCtx.stroke();
+                // renderCtx.strokeStyle = "rgba(255,255,255,.75)";
+                // renderCtx.lineWidth = 6;
+                // renderCtx.beginPath();
+                // renderCtx.arc(0, 0, Math.min(w, h) / 5, 0, Math.PI * 2);
+                // renderCtx.stroke();
+                // 左上
+                renderCtx.font = `bold 70px Mono`;
+                renderCtx.textAlign = "left";
+                renderCtx.textBaseline = "top";
 
+                renderCtx.fillText(
+                    BACK_PATTERN.sticker,
+                    -w / 2 + 20,
+                    -h / 2 + 50
+                );
                 renderCtx.restore();
                 return;
             }
 
             drawRoundedRectByCtx(renderCtx, -w / 2, -h / 2, w, h, 10);
 
-            renderCtx.fillStyle = "#fff";
+            renderCtx.fillStyle = FRONT_PATTERN.bg; // card face color
             renderCtx.fill();
 
             renderCtx.shadowColor = "rgba(0,0,0,.2)";
             renderCtx.shadowBlur = 14;
 
-            renderCtx.strokeStyle = "#e6c7d2";
-            renderCtx.lineWidth = 2;
+            renderCtx.strokeStyle = FRONT_PATTERN.line;
+            renderCtx.lineWidth = 1;
             renderCtx.stroke();
 
             let color = SUIT_COLORS[card.suit] || "#111";
@@ -495,7 +508,7 @@
             renderCtx.restore();
 
             // 中央花色
-            renderCtx.font = `${80 * fontScale}px Mono`;
+            renderCtx.font = `${70 * fontScale}px Mono`;
             renderCtx.textAlign = "center";
             renderCtx.textBaseline = "middle";
             renderCtx.globalAlpha = .9;
@@ -505,7 +518,7 @@
             // 右上tip
             renderCtx.save();
             renderCtx.translate(
-                w / 2 - 12,
+                w / 2 - (10 * fontScale),
                 -h / 2 + 18
             );
 
@@ -526,7 +539,7 @@
             // 右上答案
             renderCtx.save();
             renderCtx.translate(
-                w / 2 - 16,
+                w / 2 - (20 * fontScale),
                 -h / 2 + 18
             );
 
@@ -718,7 +731,7 @@
 
         function showCardPopup(card) {
             showModal(`<div style="display:flex;justify-content:center;align-items:center;padding:12px;"><canvas id="popupCard" width="420" height="640"></canvas></div><div style="text-align:center;font-size:20px;font-weight:700;color:#944f68;margin-top:6px;">${card.rank}${card.suit}·${card.answer}</div>
-        <button class="close-btn" onclick="closeModal()" style="background:linear-gradient(180deg,#ff9bb8,#e86f98);">关闭</button>`);
+        <button class="close-btn" onclick="closeModal()">关闭</button>`);
 
             requestAnimationFrame(() => {
                 const popupCanvas =
